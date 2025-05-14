@@ -1,0 +1,11 @@
+asgiref==3.8.1
+chardet==5.2.0
+Django==5.2.1
+gunicorn==23.0.0
+packaging==25.0
+pillow==11.2.1
+reportlab==4.4.0
+six==1.17.0
+sqlparse==0.5.3
+transliterate==1.10.2
+tzdata==2025.2
