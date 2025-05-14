@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h2>{{ form.instance.pk|yesno:"Редактировать программу,Добавить программу" }}</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a href="{% url 'my_programs' %}" class="btn btn-secondary">Назад</a>
+  </form>
+</div>
+{% endblock %}

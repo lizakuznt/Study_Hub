@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Загрузка материала{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📁 Загрузка нового учебного материала</h2>
+
+<form method="post" enctype="multipart/form-data" class="col-md-8">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">📤 Загрузить</button>
+</form>
+{% endblock %}

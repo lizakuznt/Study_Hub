@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}{{ material.title }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ material.title }}</h2>
+
+<p class="text-muted">Модуль: {{ material.module.name }}</p>
+
+<div class="mb-3">
+    <strong>Описание:</strong>
+    <p>{{ material.description }}</p>
+</div>
+
+<div class="mb-3">
+    <strong>Тип файла:</strong> {{ material.get_file_type_display }}
+</div>
+
+<a href="{{ material.file.url }}" class="btn btn-outline-primary" target="_blank">Скачать / Открыть файл</a>
+
+{% if not is_curator %}
+    {% if viewed %}
+        <span class="badge bg-success ms-2">Просмотрено</span>
+    {% else %}
+        <a href="{% url 'mark_material_viewed' material.id %}" class="btn btn-outline-success ms-2">Пометить как прочитано</a>
+    {% endif %}
+{% endif %}
+
+{% if is_curator %}
+    <div class="mt-4">
+        <a href="{% url 'material_edit' material.id %}" class="btn btn-warning">Редактировать</a>
+        <a href="{% url 'material_delete' material.id %}" class="btn btn-danger" onclick="return confirm('Удалить материал?')">Удалить</a>
+    </div>
+{% endif %}
+{% endblock %}

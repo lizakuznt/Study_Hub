@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Проверка задания{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Проверка: {{ submission.assignment.title }}</h2>
+
+<p><strong>Пользователь:</strong> {{ submission.user.username }}</p>
+
+{% if submission.answer_text %}
+    <p><strong>Ответ:</strong> {{ submission.answer_text }}</p>
+{% endif %}
+
+{% if submission.answer_file %}
+    <p><strong>Файл:</strong> <a href="{{ submission.answer_file.url }}" target="_blank">Скачать</a></p>
+{% endif %}
+
+<form method="post" class="col-md-4 mt-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Сохранить</button>
+</form>
+{% endblock %}

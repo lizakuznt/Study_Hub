@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}{{ assignment.title }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ assignment.title }}</h2>
+
+<div class="mb-3">
+    <h5>Описание</h5>
+    <p>{{ assignment.description }}</p>
+    <p><span class="text-muted">Модуль:</span> {{ assignment.module.name }}</p>
+</div>
+
+{% if submission %}
+    <div class="mb-4">
+        <strong>Статус:</strong>
+        {% if submission.status == 'accepted' %}
+            <span class="badge bg-success">Принято</span>
+        {% elif submission.status == 'submitted' %}
+            <span class="badge bg-warning text-dark">На проверке</span>
+        {% elif submission.status == 'rejected' %}
+            <span class="badge bg-danger">Требует доработки</span>
+        {% endif %}
+        <br>
+        <strong>Отправлено:</strong> {{ submission.submitted_at|date:"d.m.Y H:i" }}
+    </div>
+{% endif %}
+
+{% if status == 'accepted' %}
+    <!-- <div class="alert alert-success">
+        Задание проверено и принято. Редактирование недоступно.
+    </div> -->
+{% elif status == 'submitted' %}
+    <!-- <div class="alert alert-warning">
+        Задание отправлено и ожидает проверки. Изменения недоступны.
+    </div> -->
+{% else %}
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Отправить ответ</button>
+    </form>
+{% endif %}
+{% endblock %}

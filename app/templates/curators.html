@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Кураторы{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Наши кураторы</h2>
+
+<!-- 🔍 Поиск по имени -->
+<form method="get" class="mb-4 row g-3">
+  <div class="col-md-6">
+    <input type="text" name="q" class="form-control" placeholder="Поиск по имени..." value="{{ query }}">
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-outline-primary">Поиск</button>
+  </div>
+</form>
+
+{% if curators %}
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for curator in curators %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ curator.get_full_name|default:curator.username }}</h5>
+            <p class="card-text text-muted">Программ под кураторством: {{ curator.programs_count }}</p>
+            <p class="card-text">
+              <small class="text-muted">Зарегистрирован: {{ curator.date_joined|date:"d.m.Y" }}</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">Кураторы не найдены.</p>
+{% endif %}
+{% endblock %}

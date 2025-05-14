@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{{ assignment.title }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ assignment.title }}</h2>
+<p class="text-muted">{{ assignment.description }}</p>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Отправить</button>
+</form>
+
+{% if editing %}
+<p class="text-muted mt-3">Вы редактируете отправленное задание. После повторной отправки оно вернётся на проверку.</p>
+{% endif %}
+{% endblock %}

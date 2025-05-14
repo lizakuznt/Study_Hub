@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Избранное{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Избранные программы</h2>
+
+{% if favorites %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for program in favorites %}
+            <div class="col">
+                <a href="{% url 'program_detail' program.id %}" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm">
+                        {% if program.certificate_image %}
+                            <div class="text-center bg-light p-2">
+                                <img src="{{ program.certificate_image.url }}"
+                                     alt="Превью сертификата"
+                                     class="img-fluid img-thumbnail mx-auto d-block"
+                                     style="max-height: 250px; object-fit: contain;">
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ program.name }}</h5>
+                            <p class="card-text">{{ program.description|truncatewords:20 }}</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Раздел: {{ program.section.name }}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">У вас пока нет избранных программ.</p>
+{% endif %}
+{% endblock %}

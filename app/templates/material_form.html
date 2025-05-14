@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Материал{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Материал</h2>
+
+<form method="post" enctype="multipart/form-data" class="col-md-8">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a href="{% url 'materials' %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

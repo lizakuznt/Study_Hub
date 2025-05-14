@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}">StudyHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- 🔗 Основные ссылки -->
+        <ul class="navbar-nav me-auto">
+          {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Главная</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'sections' %}">Разделы</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'curators' %}">Кураторы</a></li>
+          {% endif %}
+        </ul>
+
+        <!-- 👤 Профиль -->
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                👤 {{ user.get_full_name|default:user.username }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
+                <li><a class="dropdown-item" href="{% url 'favorites' %}">Избранное</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'my_programs' %}">Мои программы</a></li>
+                <li><a class="dropdown-item" href="{% url 'assignments' %}">Задания</a></li>
+                <li><a class="dropdown-item" href="{% url 'materials' %}">Материалы</a></li>
+                {% if is_curator %}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'submissions_to_check' %}">Проверка заданий</a></li>
+                <li><a class="dropdown-item" href="{% url 'enrollments_manage' %}">Заявки на программы</a></li>
+                {% endif %}
+                {% if is_admin %}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'stats' %}">Статистика</a></li>
+                <li><a class="dropdown-item" href="/admin/">Django Admin</a></li>
+                {% endif %}
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Выйти</a></li>
+              </ul>
+            </li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Войти</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Регистрация</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>

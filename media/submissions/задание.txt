@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+</head>
+<body>
+    <!-- Общий хедер -->
+    <header>
+        <h1>Добро пожаловать!</h1>
+        <nav>
+            <a href="/">Главная</a>
+            <a href="/about/">О нас</a>
+        </nav>
+    </header>
+
+    <!-- Основное содержимое (будет переопределяться в дочерних шаблонах) -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Общий футер -->
+    <footer>
+        <p>&copy; 2025 Мой сайт</p>
+    </footer>
+</body>
+</html>

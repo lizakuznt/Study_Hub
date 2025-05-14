@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Статистика{% endblock %}
+
+{% block content %}
+<h2>Статистика платформы</h2>
+
+<ul class="list-group">
+    <li class="list-group-item">Всего участников: <strong>{{ participants_count }}</strong></li>
+    <li class="list-group-item">Всего кураторов: <strong>{{ curators_count }}</strong></li>
+    <li class="list-group-item">Всего программ: <strong>{{ programs_count }}</strong></li>
+</ul>
+
+{% endblock %}

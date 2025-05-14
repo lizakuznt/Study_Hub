@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{ section|default_if_none:"Добавление раздела" }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ section|default_if_none:"Добавить раздел" }}</h2>
+<form method="post" class="col-md-6">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="name" class="form-label">Название:</label>
+        <input type="text" name="name" class="form-control" value="{{ section.name|default:'' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Описание:</label>
+        <textarea name="description" class="form-control" rows="4" required>{{ section.description|default:'' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a href="{% url 'sections' %}" class="btn btn-secondary">Назад</a>
+</form>
+{% endblock %}

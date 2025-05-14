@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Материалы{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Материалы</h2>
+
+<!-- 🔍 Фильтр по ID модуля -->
+<form method="get" class="mb-4 row g-3">
+  <div class="col-md-4">
+    <input type="number" name="module" placeholder="ID модуля" class="form-control" value="{{ request.GET.module }}">
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-outline-primary w-100">Фильтр</button>
+  </div>
+</form>
+
+{% if is_curator %}
+  <div class="mb-4">
+    <a href="{% url 'upload_material' %}" class="btn btn-primary">+ Новый материал</a>
+  </div>
+{% endif %}
+
+<!-- 📄 Карточки материалов -->
+{% if materials %}
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for material in materials %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ material.title }}</h5>
+            <p class="card-text">{{ material.description|truncatewords:25 }}</p>
+            <p class="card-text">
+              <small class="text-muted">Тип файла: {{ material.get_file_type_display }}</small>
+            </p>
+          </div>
+          <div class="card-footer d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="btn-group btn-group-sm">
+              <a href="{% url 'material_detail' material.id %}" class="btn btn-outline-primary">Открыть</a>
+
+              {% if is_curator %}
+                <a href="{% url 'material_edit' material.id %}" class="btn btn-outline-secondary">Редактировать</a>
+                <a href="{% url 'material_delete' material.id %}" class="btn btn-outline-danger"
+                   onclick="return confirm('Удалить материал?')">Удалить</a>
+              {% else %}
+                {% if material.id in viewed_ids %}
+                  <span class="btn btn-outline-success disabled">✅ Прочитано</span>
+                {% else %}
+                  <a href="{% url 'mark_material_viewed' material.id %}" class="btn btn-outline-success">Прочитано</a>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">Материалы не найдены.</p>
+{% endif %}
+{% endblock %}

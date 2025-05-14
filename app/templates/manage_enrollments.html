@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h2>Заявки</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr><th>Пользователь</th><th>Программа</th><th>Статус</th><th>Действие</th></tr>
+    </thead>
+    <tbody>
+      {% for e in enrollments %}
+      <tr>
+        <td>{{ e.user.username }}</td>
+        <td>{{ e.program.name }}</td>
+        <td>{{ e.is_approved|yesno:"Одобрено,Не одобрено" }}</td>
+        <td>
+          <a href="{% url 'enrollment_toggle_approval' e.pk %}" class="btn btn-sm btn-warning">
+            {% if e.is_approved %}Отклонить{% else %}Одобрить{% endif %}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

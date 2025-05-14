@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}{{ program.name }}{% endblock %}
+
+{% block content %}
+<div class="row g-5">
+    <!-- Левая колонка: Информация -->
+    <div class="col-md-8">
+        <h2 class="mb-4">{{ program.name }}</h2>
+
+        <div class="mb-4">
+            <h5>Описание</h5>
+            <p class="text-muted">{{ program.description }}</p>
+        </div>
+
+        <div class="mb-4">
+            <h5>Цель</h5>
+            <p class="text-muted">{{ program.goal }}</p>
+        </div>
+
+        <div class="mb-4">
+            <h5>Навыки</h5>
+            <p class="text-muted">{{ program.skills }}</p>
+        </div>
+
+        <div class="mb-4">
+            <h5>Раздел</h5>
+            <span class="badge bg-secondary">{{ program.section.name }}</span>
+        </div>
+    </div>
+
+    <!-- Правая колонка: Картинка и действия -->
+    <div class="col-md-4">
+        {% if program.certificate_image %}
+        <div class="text-center mb-3">
+            <img src="{{ program.certificate_image.url }}"
+                 alt="Сертификат"
+                 class="img-fluid img-thumbnail"
+                 style="max-height: 280px; object-fit: contain;">
+        </div>
+        {% endif %}
+
+        <!-- Избранное -->
+        <form method="post" action="{% url 'add_to_favorites' %}" class="d-grid mb-2">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if program in request.user.favorites.all %}
+                <button type="submit" class="btn btn-outline-danger">Убрать из избранного</button>
+            {% else %}
+                <button type="submit" class="btn btn-outline-warning">Добавить в избранное</button>
+            {% endif %}
+        </form>
+        
+
+        <!-- Заявка -->
+        {% if not enrolled %}
+            <a href="{% url 'enroll' program.id %}" class="btn btn-success w-100">Записаться на программу</a>
+        {% else %}
+            <p class="text-success text-center mt-2">Вы уже записаны на эту программу.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

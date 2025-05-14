@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Образовательные программы</h1>
+
+<!-- 🔍 Поиск + Фильтр по разделу (в одном form) -->
+<form method="get" class="mb-4 row g-3">
+    <div class="col-md-5">
+        <input type="text" name="q" class="form-control" placeholder="Поиск программ..." value="{{ query }}">
+    </div>
+
+    <div class="col-md-4">
+        <select name="section" class="form-select">
+            <option value="">Все разделы</option>
+            {% for section in sections %}
+                <option value="{{ section.id }}" {% if section.id == selected_section %}selected{% endif %}>
+                    {{ section.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-outline-primary w-100" type="submit">Применить фильтр</button>
+    </div>
+</form>
+
+<!-- 📋 Результаты -->
+{% if programs %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for program in programs %}
+            <div class="col">
+                <a href="{% url 'program_detail' program.id %}" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm">
+                        {% if program.certificate_image %}
+                            <div class="text-center bg-light p-2">
+                                <img src="{{ program.certificate_image.url }}"
+                                     alt="Превью сертификата"
+                                     class="img-fluid img-thumbnail mx-auto d-block"
+                                     style="max-height: 250px; object-fit: contain;">
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ program.name }}</h5>
+                            <p class="card-text">{{ program.description|truncatechars:150 }}</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            Раздел: {{ program.section.name }}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">Программы не найдены.</p>
+{% endif %}
+{% endblock %}

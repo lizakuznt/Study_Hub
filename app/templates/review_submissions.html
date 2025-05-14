@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Проверка заданий{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Поданные задания</h2>
+
+<ul class="list-group">
+    {% for sub in submissions %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ sub.user.username }}</strong>: {{ sub.assignment.title }}
+                <br>
+                <small class="text-muted">Статус: {{ sub.get_status_display }}</small>
+            </div>
+            <a href="{% url 'review_submission' sub.id %}" class="btn btn-sm btn-outline-primary">Проверить</a>
+        </li>
+    {% empty %}
+        <p class="text-muted">Нет поданных заданий для проверки.</p>
+    {% endfor %}
+</ul>
+{% endblock %}

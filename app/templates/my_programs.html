@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Мои программы{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Мои программы</h1>
+
+<form method="get" class="row g-3 align-items-end mb-4">
+  <div class="col-md-5">
+    <input type="text" name="q" class="form-control" placeholder="Поиск по названию..." value="{{ query }}">
+  </div>
+  <div class="col-md-4">
+    <select name="section" class="form-select">
+      <option value="">Все разделы</option>
+      {% for section in sections %}
+        <option value="{{ section.id }}" {% if section.id == selected_section %}selected{% endif %}>
+          {{ section.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-3">
+    <button type="submit" class="btn btn-outline-primary w-100">Фильтр</button>
+  </div>
+</form>
+
+{% if is_curator %}
+  <a href="{% url 'program_create' %}" class="btn btn-primary mb-3">+ Новая программа</a>
+{% endif %}
+
+{% if programs %}
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for program in programs %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ program.name }}</h5>
+            <p class="card-text">{{ program.description|truncatechars:150 }}</p>
+            <small class="text-muted">Раздел: {{ program.section.name }}</small>
+          </div>
+          <div class="card-footer d-flex justify-content-between align-items-center">
+            <a href="{% url 'program_detail' program.id %}" class="btn btn-sm btn-outline-primary">Открыть</a>
+            {% if is_curator %}
+              <div>
+                <a href="{% url 'program_edit' program.id %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                <a href="{% url 'program_delete' program.id %}" class="btn btn-sm btn-outline-danger"
+                   onclick="return confirm('Удалить программу?')">Удалить</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">Нет доступных программ</p>
+{% endif %}
+{% endblock %}

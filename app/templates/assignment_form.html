@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}{{ form.instance.pk|yesno:"Редактирование задания,Создание задания" }}{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ form.instance.pk|yesno:"Редактирование задания,Создание нового задания" }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+    <a href="{% url 'assignments' %}" class="btn btn-secondary">Назад</a>
+</form>
+{% endblock %}

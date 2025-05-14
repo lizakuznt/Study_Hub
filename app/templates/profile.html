@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Профиль</h2>
+
+
+<form method="post" class="col-md-6 mb-4">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-primary">Сохранить</button>
+</form>
+
+<h4 class="mb-3">Ваши программы</h4>
+<ul class="list-group mb-4">
+    {% for enrollment in enrollments %}
+        <li class="list-group-item">
+            {{ enrollment.program.name }}
+            {% if enrollment.is_approved %}
+                <span class="badge bg-success float-end">Одобрено</span>
+            {% else %}
+                <span class="badge bg-secondary float-end">Ожидает</span>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="list-group-item text-muted">Нет заявок</li>
+    {% endfor %}
+</ul>
+
+<h4 class="mb-3">Сертификаты</h4>
+<ul class="list-group mb-4">
+    {% for cert in certificates %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ cert.program.name }}
+            <a href="{% url 'download_certificate' cert.id %}" class="btn btn-sm btn-outline-success">Скачать</a>
+        </li>
+    {% empty %}
+        <li class="list-group-item text-muted">Нет сертификатов</li>
+    {% endfor %}
+</ul>
+
+<div class="mb-4">
+    <strong>Прогресс обучения:</strong>
+    <div class="progress mt-2">
+        <div class="progress-bar" role="progressbar" style="width: {{ progress_percent }}%;" aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100">{{ progress_percent }}%</div>
+    </div>
+</div>
+{% endblock %}
