@@ -37,7 +37,7 @@ USER root
 COPY . .
 
 # Устанавливаем права на директорию базы данных, чтобы контейнер мог записывать в нее
-RUN chmod -R 777 /app
+RUN chmod -R 777 /app/db
 
 # Expose the port that the application listens on.
 EXPOSE 8000
