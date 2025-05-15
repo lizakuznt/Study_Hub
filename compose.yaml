@@ -9,7 +9,6 @@
 # https://github.com/docker/awesome-compose
 volumes:
   Study_Hub_sql_lite_database:
-    driver: local
 
 services:
   server:
@@ -18,7 +17,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - Study_Hub_sql_lite_database:/db
+      - Study_Hub_sql_lite_database:/app/db
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
